@@ -12,23 +12,53 @@ import {
   StyleSheet,
 } from "react-native";
 
-import { TextInput, Text, withTheme } from "react-native-paper";
+import { TextInput, Text, withTheme, Switch } from "react-native-paper";
 
 import { StatusBar } from "expo-status-bar";
 import { PreferencesContext } from "../Helpers/Global";
+
+import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const LoginScreen = (props) => {
   const { navigation, route } = props;
   const { colors } = props.theme;
 
   const { toggleTheme, isThemeDark } = useContext(PreferencesContext);
+
+  const onToggleSwitch = () => {
+    if (!isThemeDark) toggleTheme("dark");
+    else toggleTheme("light");
+  };
+
   return (
     <SafeAreaView forceInset={{ top: "always" }} style={styles.container}>
-      <ScrollView style={{ paddingHorizontal: "14%" }}>
+      <ScrollView>
+        <View style={styles.viewSwitch}>
+          <Switch value={isThemeDark} onValueChange={onToggleSwitch} />
+          {isThemeDark ? (
+            <Icons
+              type="material-community"
+              name={"weather-night"}
+              size={25}
+              style={{ marginBottom: 4 }}
+              color={colors.text}
+            />
+          ) : (
+            <Icons
+              type="material-community"
+              name={"weather-sunny"}
+              size={28}
+              color={"#ddbc00"}
+              style={{ marginBottom: 2 }}
+            />
+          )}
+        </View>
+
         <StatusBar barStyle="light-content" />
         <TouchableWithoutFeedback>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : ""}
+            style={{ paddingHorizontal: "14%" }}
           >
             <View
               style={{
@@ -36,7 +66,7 @@ const LoginScreen = (props) => {
               }}
             >
               <Image
-                source={require("../Assets/icon5.png")}
+                source={require("../Assets/icon.png")}
                 style={styles.logo}
               />
 
@@ -56,16 +86,13 @@ const LoginScreen = (props) => {
 
               <TouchableOpacity
                 style={{ ...styles.button, backgroundColor: colors.primary }}
-                onPress={() => {
-                  if (!isThemeDark) toggleTheme("dark");
-                  else toggleTheme("light");
-                }}
               >
                 <Text style={styles.buttonText}>Iniciar sesión</Text>
               </TouchableOpacity>
 
-              <Text style={styles.textInfo}>
-                Nuevo usuario? Crea una cuenta{" "}
+              <Text style={styles.textInfo}>Nuevo en CONNECTITI?</Text>
+              <Text style={{ ...styles.textInfo, marginBottom: 20 }}>
+                Crea una cuenta{" "}
                 <Text
                   onPress={() => navigation.navigate("Register")}
                   style={{
@@ -89,11 +116,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  viewSwitch: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-end",
+    marginRight: 5,
+  },
+
   logo: {
     width: 192,
     height: 192,
     alignSelf: "center",
-    marginTop: 75,
+    marginTop: 65,
     marginBottom: 25,
   },
 
@@ -117,7 +151,6 @@ const styles = StyleSheet.create({
 
   textInfo: {
     textAlign: "center",
-    marginBottom: 22,
     fontSize: 16,
   },
 

@@ -36,6 +36,7 @@ const App = () => {
   theme.colors = {
     ...theme.colors,
     primary: "#FE724C",
+    primaryBold: "#ff5126",
     secondary: "#1e88e5",
     background: isThemeDark ? "#0B141A" : "#FFFFFF",
   };
@@ -55,7 +56,7 @@ const App = () => {
   const globalScreenOptions = {
     headerBackground: () => (
       <LinearGradient
-        colors={["#FE724C", "#ff572d"]}
+        colors={[theme.colors.primary, theme.colors.primaryBold]}
         style={{ flex: 1 }}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
